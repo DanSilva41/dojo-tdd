@@ -8,10 +8,12 @@ import java.util.List;
 
 public class AccountRepository {
 
+    private static AccountRepository accountRepository;
+
     private final List<Account> allAccounts;
     private final CustomerRepository customerRepository;
 
-    public AccountRepository(final CustomerRepository customerRepository) {
+    private AccountRepository(final CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
         allAccounts = generateAccounts();
     }
@@ -31,5 +33,11 @@ public class AccountRepository {
                 new Account(4, customerRepository.findById(4), new BigDecimal("100")),
                 new Account(5, customerRepository.findById(5), new BigDecimal("100"))
         );
+    }
+
+    public static AccountRepository getInstance() {
+        if (accountRepository == null)
+            accountRepository = new AccountRepository(CustomerRepository.getInstance());
+        return accountRepository;
     }
 }

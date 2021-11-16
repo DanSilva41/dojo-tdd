@@ -7,9 +7,11 @@ import java.util.List;
 
 public class CustomerRepository {
 
+    private static CustomerRepository customerRepository;
+
     private final List<Customer> allCustomers;
 
-    public CustomerRepository() {
+    private CustomerRepository() {
         this.allCustomers = generateCustomers();
     }
 
@@ -28,5 +30,11 @@ public class CustomerRepository {
                 new Customer(4, "Cristiano"),
                 new Customer(5, "Rafael")
         );
+    }
+
+    public static CustomerRepository getInstance() {
+        if (customerRepository == null)
+            customerRepository = new CustomerRepository();
+        return customerRepository;
     }
 }
